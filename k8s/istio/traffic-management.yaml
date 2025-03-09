@@ -1,0 +1,48 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: user-service-vs
+  namespace: ecommerce
+spec:
+  hosts:
+  - user-service
+  http:
+  - route:
+    - destination:
+        host: user-service
+        subset: blue
+      weight: 100
+    - destination:
+        host: user-service
+        subset: green
+      weight: 0
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: user-service-dr
+  namespace: ecommerce
+spec:
+  host: user-service
+  subsets:
+  - name: blue
+    labels:
+      version: blue
+  - name: green
+    labels:
+      version: green
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: user-service-entry
+  namespace: ecommerce
+spec:
+  hosts:
+  - user-service
+  ports:
+  - number: 8000
+    name: http
+    protocol: HTTP
+  resolution: DNS
+  location: MESH_INTERNAL 

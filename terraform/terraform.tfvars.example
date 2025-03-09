@@ -1,0 +1,8 @@
+project_id = "your-project-id"
+region     = "us-central1"
+
+# Optional variables with defaults
+cluster_name      = "ecommerce-cluster"
+gcs_bucket_name   = "ecommerce-frontend"
+node_count        = 3
+machine_type      = "e2-medium" 
